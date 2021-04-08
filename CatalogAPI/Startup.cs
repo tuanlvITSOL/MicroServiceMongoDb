@@ -1,19 +1,20 @@
 using CatalogAPI.Data;
 using CatalogAPI.Data.Interfaces;
+using CatalogAPI.Entities;
+using CatalogAPI.Repositories.BaseResponsitory.ImplementBase;
+using CatalogAPI.Repositories.Implements;
+using CatalogAPI.Repositories.interfaceBase;
 using CatalogAPI.Repositories.Interfaces;
+using CatalogAPI.Services.Implements;
+using CatalogAPI.Services.Interfaces;
 using CatalogAPI.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CatalogAPI
 {
@@ -29,12 +30,16 @@ namespace CatalogAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            
             services.Configure<CatalogDatabaseSettings>(Configuration.GetSection(nameof(CatalogDatabaseSettings)));
             services.AddSingleton<ICatalogDatabaseSettings>(sp => sp.GetRequiredService<IOptions<CatalogDatabaseSettings>>().Value);
 
-            services.AddTransient<ICatalogContext, CatalogContext>();
+            services.AddTransient<IMongoContext, MongoContext>();
             services.AddTransient<IProductRepository, ProductRepository>();
+            services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<ICategotyReponsitory, CategoryReponsitory>();
+            services.AddTransient<ICategoryService, CategoryService>();
+            services.AddControllers();
 
             services.AddSwaggerGen(c =>
             {
