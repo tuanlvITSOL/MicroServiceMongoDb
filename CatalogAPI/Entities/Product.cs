@@ -1,17 +1,11 @@
-﻿using MongoDB.Bson;
+﻿using CatalogAPI.Entities.Base;
 using MongoDB.Bson.Serialization.Attributes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CatalogAPI.Entities
 {
-    public class Product
+    [BsonDiscriminator("Products")]
+    public class Product : BaseEntity
     {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
         public string Name { get; set; }
 
         public string Category { get; set; }

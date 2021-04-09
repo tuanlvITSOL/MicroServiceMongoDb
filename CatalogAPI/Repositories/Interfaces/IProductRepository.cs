@@ -1,19 +1,14 @@
 ﻿
 using CatalogAPI.Entities;
+using CatalogAPI.Repositories.interfaceBase;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace CatalogAPI.Repositories.Interfaces
 {
-    public interface IProductRepository
+    public interface IProductRepository : IRepositoryBase<Product>
     {
-        Task<IEnumerable<Product>> GetProducts();
-        Task<Product> GetProduct(string id);
         Task<IEnumerable<Product>> GetProductByName(string name);
         Task<IEnumerable<Product>> GetProductByCategory(string categoryName);
-
-        Task Create(Product product);
-        Task<bool> Update(Product product);
-        Task<bool> Delete(string id);
     }
 }
